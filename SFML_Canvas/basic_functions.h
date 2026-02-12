@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <corecrt_math_defines.h>
-#include <cstdio>
 #include <SFML/Graphics/Color.hpp>
 
 static sf::Color rainbow_function(int _x) {

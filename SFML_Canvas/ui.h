@@ -6,10 +6,9 @@
 enum class ButtonAction
 {
 	None,
-	Circle,
+	Ellipse,
 	Rectangle,
 	Polygon,
-	ParticleEmitter,
 	Pipette,
 	Paint
 
@@ -18,12 +17,12 @@ enum class ButtonAction
 class UI
 {
 private:
-	ButtonAction currentAction = ButtonAction::None;
 	std::map<std::string, ButtonAction> buttons;
 	static UI* instance_;
-	UI();
+	UI() = default;
 public:
 	static UI* get_instance();
+	ButtonAction current_action = ButtonAction::None;
 
 	void button_click(std::string label, ButtonAction& tool);
 	void draw_button(const std::string& label, ButtonAction action, ImVec2 size = ImVec2(100, 20));

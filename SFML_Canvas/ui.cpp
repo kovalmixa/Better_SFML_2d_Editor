@@ -4,10 +4,6 @@
 
 UI* UI::instance_ = nullptr;
 
-UI::UI()
-{
-}
-
 UI* UI::get_instance()
 {
 	return instance_ ? instance_ : (instance_ = new UI());
@@ -17,20 +13,22 @@ void UI::button_click(std::string label, ButtonAction& selected_action)
 {
 	auto it = buttons.find(label);
 	if (it == buttons.end()) return;
-    if (currentAction == ButtonAction::None || currentAction != selected_action)
+    if (current_action == ButtonAction::None || current_action != selected_action)
     {
-        currentAction = it->second;
-        selected_action = currentAction;
+        current_action = it->second;
+        selected_action = current_action;
     }
-    else if (currentAction == selected_action) {
-        currentAction = ButtonAction::None;
-        selected_action = currentAction;
+    else if (current_action == selected_action) {
+        current_action = ButtonAction::None;
+        selected_action = current_action;
 	}
 }
 
 void UI::draw_button(const std::string& label, ButtonAction action = ButtonAction::None, ImVec2 size)
 {
-    bool active = (action == currentAction && action != ButtonAction::None);
+    auto it = buttons.find(label);
+    if (it == buttons.end()) buttons.insert(std::pair<const std::string, ButtonAction> (label, action));
+    bool active = (action == current_action && action != ButtonAction::None);
 
     if (active)
     {
