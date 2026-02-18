@@ -30,8 +30,9 @@ void logic_pipeline(sf::RenderWindow* window, const std::vector<sf::Event>& even
                 bool overUI = ImGui::IsAnyItemHovered() || ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow);
                 if (!overUI)
                 {
-                    std::cout << "Logic: Canvas Click!" << std::endl;
-                    Controller::get_instance()->execute_action(UI::get_instance()->current_action);
+                    //std::cout << "Logic: Canvas Click!" << std::endl;
+					sf::Vector2f mouse_position = window->mapPixelToCoords(mouseEvent->position);
+                    Controller::get_instance()->execute_action(UI::get_instance()->current_action, mouse_position);
                 }
             }
         }
@@ -46,6 +47,7 @@ void logic_pipeline(sf::RenderWindow* window, const std::vector<sf::Event>& even
 
 void rendering_pipeline(sf::RenderWindow* window, ImGuiIO* io){
     ImGui::SFML::Update(*window, delta_clock.restart());
+
     if (ImGui::BeginMainMenuBar())
     {
         ImGui::BeginGroup();
@@ -53,7 +55,7 @@ void rendering_pipeline(sf::RenderWindow* window, ImGuiIO* io){
         ui->draw_button("Ellipse", ButtonAction::Ellipse);
         ImGui::SameLine();
         ui->draw_button("Rectangle", ButtonAction::Rectangle);
-        ui->draw_button("Polygon", ButtonAction::Rectangle);
+        ui->draw_button("Polygon", ButtonAction::Polygon);
         ImGui::EndGroup();
 
         ImGui::BeginGroup();
@@ -65,14 +67,17 @@ void rendering_pipeline(sf::RenderWindow* window, ImGuiIO* io){
             ImGuiColorEditFlags_PickerHueWheel |
             ImGuiColorEditFlags_NoInputs |
             ImGuiColorEditFlags_NoLabel);
-        ui->draw_button("Paint", ButtonAction::Rectangle, ImVec2(50, 20));
+        ui->draw_button("Paint", ButtonAction::Paint, ImVec2(50, 20));
         ImGui::EndGroup();
         ImGui::EndMainMenuBar();
     }
+
     //window->clear(sf::Color(30, 30, 30));
     window->clear(rainbow_function(x));
 
+    Controller::get_instance()->render_shapes(*window);
     ImGui::SFML::Render(*window);
+
     window->display();
 }
 

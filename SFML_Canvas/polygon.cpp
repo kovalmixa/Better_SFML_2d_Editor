@@ -12,6 +12,11 @@ Polygon::Polygon()
 
 void Polygon::draw(sf::RenderWindow& window)
 {
+	window.draw(*shape_);
+}
+
+void Polygon::set_transform(sf::Vector2f position, sf::Vector2f size, sf::Angle rotation)
+{
 }
 
 bool Polygon::contains(sf::Vector2f point)

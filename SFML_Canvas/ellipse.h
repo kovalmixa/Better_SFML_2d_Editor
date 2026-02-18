@@ -5,7 +5,7 @@
 class Ellipse : public Polygon
 {
 public:
-	Ellipse()
-	{
-	}
+	Ellipse();
+
+	void set_transform(sf::Vector2f position, sf::Vector2f size, sf::Angle rotation) override;
 };

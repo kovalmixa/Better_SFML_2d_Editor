@@ -2,17 +2,20 @@
 #include <iostream>
 #include <SFML/System/Exception.hpp>
 #include "ui.h"
+#include "rectangle.h"
+#include "polygon.h"
+#include "ellipse.h"
 
 Controller* Controller::instance_ = nullptr;
 
 Controller::Controller()
 {
 	handlers_ = {
-		{ButtonAction::Ellipse,  [this] { spawn_ellipse(); }},
-		{ButtonAction::Paint,	 [this] { paint_figure(); } },
-		{ButtonAction::Pipette,  [this] { copy_color(); }},
-		{ButtonAction::Polygon,  [this] { spawn_polygon(); } },
-		{ButtonAction::Rectangle,[this] { spawn_rectangle(); } }
+		{ButtonAction::Ellipse,  [this](sf::Vector2f position) { spawn_ellipse(position); }},
+		{ButtonAction::Paint,	 [this](sf::Vector2f position) { paint_figure(position); } },
+		{ButtonAction::Pipette,  [this](sf::Vector2f position) { copy_color(position); }},
+		{ButtonAction::Polygon,  [this](sf::Vector2f position) { spawn_polygon(position); } },
+		{ButtonAction::Rectangle,[this](sf::Vector2f position) { spawn_rectangle(position); } }
 	};
 }
 
@@ -22,7 +25,7 @@ Controller::~Controller()
 	shapes_.clear();
 }
 
-void Controller::spawn_ellipse()
+void Controller::spawn_ellipse(sf::Vector2f position)
 {
 	try
 	{
@@ -34,7 +37,7 @@ void Controller::spawn_ellipse()
 	}
 }
 
-void Controller::spawn_polygon()
+void Controller::spawn_polygon(sf::Vector2f position)
 {
 	try
 	{
@@ -46,7 +49,7 @@ void Controller::spawn_polygon()
 	}
 }
 
-void Controller::copy_color()
+void Controller::copy_color(sf::Vector2f position)
 {
 	try
 	{
@@ -58,7 +61,7 @@ void Controller::copy_color()
 	}
 }
 
-void Controller::paint_figure()
+void Controller::paint_figure(sf::Vector2f position)
 {
 	try
 	{
@@ -70,11 +73,13 @@ void Controller::paint_figure()
 	}
 }
 
-void Controller::spawn_rectangle()
+void Controller::spawn_rectangle(sf::Vector2f position)
 {
 	try
 	{
-		std::cout << "spawn rectangle\n";
+		Rectangle* new_rectangle = new Rectangle();
+		new_rectangle->set_transform(position, { 20, 20 }, sf::degrees(0.f));
+		shapes_.push_back(new_rectangle);
 	}
 	catch (sf::Exception exception)
 	{
@@ -84,9 +89,14 @@ void Controller::spawn_rectangle()
 
 Controller* Controller::get_instance() { return instance_ ? instance_ : instance_ = new Controller(); }
 
-void Controller::execute_action(ButtonAction action)
+void Controller::execute_action(ButtonAction action, sf::Vector2f mouse_position)
 {
 	auto it = handlers_.find(action);
-	if (it != handlers_.end()) it->second();
+	if (it != handlers_.end()) it->second(mouse_position);
 	else printf("No handler for this action, number: %d\n", action);
+}
+
+void Controller::render_shapes(sf::RenderWindow& window)
+{
+	for (auto& shape : shapes_) shape->draw(window);
 }

@@ -139,7 +139,6 @@
     <ClInclude Include="polygon.h" />
     <ClInclude Include="rectangle.h" />
     <ClInclude Include="base_shape.h" />
-    <ClInclude Include="shape_transform.h" />
     <ClInclude Include="ui.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

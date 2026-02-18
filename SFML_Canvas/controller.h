@@ -9,20 +9,22 @@
 class Controller
 {
 private:
-	std::deque<BaseShape*> shapes_;
 	static Controller* instance_;
-	std::map<ButtonAction, std::function<void()>> handlers_;
+
+	std::deque<BaseShape*> shapes_;
+	std::map<ButtonAction, std::function<void(sf::Vector2f)>> handlers_;
 
 
 	Controller();
 	~Controller();
 
-	void spawn_ellipse();
-	void spawn_polygon();
-	void copy_color();
-	void paint_figure();
-	void spawn_rectangle();
+	void spawn_ellipse(sf::Vector2f position);
+	void spawn_polygon(sf::Vector2f position);
+	void copy_color(sf::Vector2f position);
+	void paint_figure(sf::Vector2f position);
+	void spawn_rectangle(sf::Vector2f position);
 public:
 	static Controller* get_instance();
-	void execute_action(ButtonAction action);
+	void execute_action(ButtonAction action, sf::Vector2f mouse_position);
+	void render_shapes(sf::RenderWindow& window);
 };

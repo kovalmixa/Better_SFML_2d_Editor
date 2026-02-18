@@ -70,9 +70,6 @@
     <ClInclude Include="base_shape.h">
       <Filter>figures\base_shape</Filter>
     </ClInclude>
-    <ClInclude Include="shape_transform.h">
-      <Filter>figures\base_shape</Filter>
-    </ClInclude>
     <ClInclude Include="ui.h">
       <Filter>ui</Filter>
     </ClInclude>
