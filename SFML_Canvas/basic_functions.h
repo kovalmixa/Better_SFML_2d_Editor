@@ -1,6 +1,6 @@
 #include <algorithm>
 #include <corecrt_math_defines.h>
-#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics.hpp>
 
 static sf::Color rainbow_function(int _x) {
         int red, green, blue;
@@ -14,3 +14,11 @@ static sf::Color rainbow_function(int _x) {
         blue = std::max(blue, 0);
         return sf::Color(red, green, blue);
     }
+
+static sf::Color get_color_from_image(const sf::Image& image, sf::Vector2f position) {
+    return image.getPixel(static_cast<sf::Vector2u>(sf::Vector2f(position.x, position.y)));
+}
+
+static sf::Color get_inverted_color(const sf::Color color) {
+    return sf::Color (255 - color.r, 255 - color.g, 255 - color.b, color.a);
+}

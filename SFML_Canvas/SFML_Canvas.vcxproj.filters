@@ -12,23 +12,23 @@
     <Filter Include="figures">
       <UniqueIdentifier>{2d5981be-d5f8-42a4-ba56-3e9f6e56fa7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="figures\polygon">
-      <UniqueIdentifier>{de0efe1d-b22c-482b-ba54-96417d217f48}</UniqueIdentifier>
-    </Filter>
     <Filter Include="figures\base_shape">
       <UniqueIdentifier>{34b417e1-174b-430b-8d5f-d284dac9c9f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="figures\rectangle">
-      <UniqueIdentifier>{bd5dccd9-2f45-439f-b98d-52354aa843ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="figures\ellipse">
-      <UniqueIdentifier>{7fc0438f-afc5-4b9a-9e21-a32b4d91e4d5}</UniqueIdentifier>
     </Filter>
     <Filter Include="ui">
       <UniqueIdentifier>{df0b7eac-8426-4a40-bb2e-659c9d9057eb}</UniqueIdentifier>
     </Filter>
     <Filter Include="controller">
       <UniqueIdentifier>{b442316c-6868-4985-9dc8-eda3024ffbb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="figures\ellipse_shape">
+      <UniqueIdentifier>{7fc0438f-afc5-4b9a-9e21-a32b4d91e4d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="figures\polygon_shape">
+      <UniqueIdentifier>{de0efe1d-b22c-482b-ba54-96417d217f48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="figures\rectangle_shape">
+      <UniqueIdentifier>{bd5dccd9-2f45-439f-b98d-52354aa843ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -38,17 +38,17 @@
     <ClCompile Include="base_shape.cpp">
       <Filter>figures\base_shape</Filter>
     </ClCompile>
-    <ClCompile Include="ellipse.cpp">
-      <Filter>figures\ellipse</Filter>
+    <ClCompile Include="ellipse_shape.cpp">
+      <Filter>figures\ellipse_shape</Filter>
     </ClCompile>
-    <ClCompile Include="rectangle.cpp">
-      <Filter>figures\rectangle</Filter>
+    <ClCompile Include="rectangle_shape.cpp">
+      <Filter>figures\rectangle_shape</Filter>
     </ClCompile>
     <ClCompile Include="basic_functions.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="polygon.cpp">
-      <Filter>figures\polygon</Filter>
+    <ClCompile Include="polygon_shape.cpp">
+      <Filter>figures\polygon_shape</Filter>
     </ClCompile>
     <ClCompile Include="ui.cpp">
       <Filter>ui</Filter>
@@ -58,14 +58,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ellipse.h">
-      <Filter>figures\ellipse</Filter>
+    <ClInclude Include="ellipse_shape.h">
+      <Filter>figures\ellipse_shape</Filter>
     </ClInclude>
-    <ClInclude Include="rectangle.h">
-      <Filter>figures\rectangle</Filter>
+    <ClInclude Include="rectangle_shape.h">
+      <Filter>figures\rectangle_shape</Filter>
     </ClInclude>
-    <ClInclude Include="polygon.h">
-      <Filter>figures\polygon</Filter>
+    <ClInclude Include="polygon_shape.h">
+      <Filter>figures\polygon_shape</Filter>
     </ClInclude>
     <ClInclude Include="base_shape.h">
       <Filter>figures\base_shape</Filter>

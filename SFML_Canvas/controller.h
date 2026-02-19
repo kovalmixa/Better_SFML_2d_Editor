@@ -2,7 +2,6 @@
 #include <deque>
 #include <functional>
 #include <map>
-
 #include "base_shape.h"
 #include "ui.h"
 
@@ -12,6 +11,7 @@ private:
 	static Controller* instance_;
 
 	std::deque<BaseShape*> shapes_;
+	std::list<BaseShape*> selected_shapes_;
 	std::map<ButtonAction, std::function<void(sf::Vector2f)>> handlers_;
 
 
@@ -23,6 +23,8 @@ private:
 	void copy_color(sf::Vector2f position);
 	void paint_figure(sf::Vector2f position);
 	void spawn_rectangle(sf::Vector2f position);
+
+	void try_select_shape(sf::Vector2f position);
 public:
 	static Controller* get_instance();
 	void execute_action(ButtonAction action, sf::Vector2f mouse_position);

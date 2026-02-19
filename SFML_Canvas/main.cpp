@@ -41,6 +41,10 @@ void logic_pipeline(sf::RenderWindow* window, const std::vector<sf::Event>& even
             running = false;
             window->close();
         }
+        if (const auto* resized = event.getIf<sf::Event::Resized>()) {
+            sf::FloatRect visibleArea({ 0.f, 0.f }, { static_cast<float>(resized->size.x), static_cast<float>(resized->size.y) });
+            window->setView(sf::View(visibleArea));
+        }
     }
     event_queue.clear();
 }

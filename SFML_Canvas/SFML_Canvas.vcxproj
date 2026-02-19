@@ -126,18 +126,18 @@
   <ItemGroup>
     <ClCompile Include="basic_functions.h" />
     <ClCompile Include="controller.cpp" />
-    <ClCompile Include="ellipse.cpp" />
+    <ClCompile Include="ellipse_shape.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="polygon.cpp" />
-    <ClCompile Include="rectangle.cpp" />
+    <ClCompile Include="polygon_shape.cpp" />
+    <ClCompile Include="rectangle_shape.cpp" />
     <ClCompile Include="base_shape.cpp" />
     <ClCompile Include="ui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="controller.h" />
-    <ClInclude Include="ellipse.h" />
-    <ClInclude Include="polygon.h" />
-    <ClInclude Include="rectangle.h" />
+    <ClInclude Include="ellipse_shape.h" />
+    <ClInclude Include="polygon_shape.h" />
+    <ClInclude Include="rectangle_shape.h" />
     <ClInclude Include="base_shape.h" />
     <ClInclude Include="ui.h" />
   </ItemGroup>

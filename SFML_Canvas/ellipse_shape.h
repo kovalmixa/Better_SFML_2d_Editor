@@ -1,11 +1,11 @@
 #pragma once
 #include "base_shape.h"
-#include "polygon.h"
+#include "polygon_shape.h"
 
-class Ellipse : public Polygon
+class EllipseShape : public PolygonShape
 {
 public:
-	Ellipse();
+	EllipseShape();
 
 	void set_transform(sf::Vector2f position, sf::Vector2f size, sf::Angle rotation) override;
 };

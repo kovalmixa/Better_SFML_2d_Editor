@@ -1,6 +1,7 @@
-#include "ui.h"
 #include <imgui-sfml.h>
 #include <imgui.h>
+
+#include "ui.h"
 
 UI* UI::instance_ = nullptr;
 
