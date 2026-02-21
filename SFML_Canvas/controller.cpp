@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <SFML/System/Exception.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "ui.h"
 #include "controller.h"
@@ -55,7 +56,14 @@ void Controller::copy_color(sf::Vector2f position)
 {
 	try
 	{
-
+		for (auto it = shapes_.rbegin(); it != shapes_.rend(); ++it) {
+			if ((*it)->contains(position)) {
+				(*it)->get_color();
+				UI::get_instance()->set_current_color((*it)->get_color());
+				break;
+			}
+		}
+		UI::get_instance()->current_action = ButtonAction::None;
 	}
 	catch (sf::Exception exception)
 	{
@@ -67,7 +75,13 @@ void Controller::paint_figure(sf::Vector2f position)
 {
 	try
 	{
-
+		//if (selected) selected->set_color(color);
+		for (auto it = shapes_.rbegin(); it != shapes_.rend(); ++it) {
+			if ((*it)->contains(position)) {
+				(*it)->set_color(UI::get_instance()->get_current_color());
+				break;
+			}
+		}
 	}
 	catch (sf::Exception exception)
 	{
@@ -81,6 +95,7 @@ void Controller::spawn_rectangle(sf::Vector2f position)
 	{
 		RectangleShape* new_rectangle = new RectangleShape();
 		new_rectangle->set_transform(position, { 20, 20 }, sf::degrees(0.f));
+		new_rectangle->set_color(UI::get_instance()->get_current_color());
 		shapes_.push_back(new_rectangle);
 	}
 	catch (sf::Exception exception)

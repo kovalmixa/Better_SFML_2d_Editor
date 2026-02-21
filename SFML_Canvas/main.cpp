@@ -65,12 +65,30 @@ void rendering_pipeline(sf::RenderWindow* window, ImGuiIO* io){
         ImGui::BeginGroup();
         ui->draw_button("Pipette", ButtonAction::Pipette);
         ImGui::Text("Color picker:");
-        static float color[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
-        ImGui::SetNextItemWidth(100);
-        ImGui::ColorEdit4("##ColorPicker", color,
+
+        #pragma region color_pallete_picker_code
+        sf::Color current_color = ui->get_current_color();
+        float color_array[4];
+        color_array[0] = (float)current_color.r / 255.0f;
+        color_array[1] = (float)current_color.g / 255.0f;
+        color_array[2] = (float)current_color.b / 255.0f;
+        color_array[3] = (float)current_color.a / 255.0f;
+
+        if (ImGui::ColorEdit4("##ColorPicker", color_array,
             ImGuiColorEditFlags_PickerHueWheel |
             ImGuiColorEditFlags_NoInputs |
-            ImGuiColorEditFlags_NoLabel);
+            ImGuiColorEditFlags_NoLabel)
+        )
+        {
+            ui->set_current_color(sf::Color(
+                static_cast<uint8_t>(color_array[0] * 255),
+                static_cast<uint8_t>(color_array[1] * 255),
+                static_cast<uint8_t>(color_array[2] * 255),
+                static_cast<uint8_t>(color_array[3] * 255)
+            ));
+        }
+        #pragma endregion
+
         ui->draw_button("Paint", ButtonAction::Paint, ImVec2(50, 20));
         ImGui::EndGroup();
         ImGui::EndMainMenuBar();

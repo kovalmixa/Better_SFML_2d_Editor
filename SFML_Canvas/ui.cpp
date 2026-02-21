@@ -4,6 +4,7 @@
 #include "ui.h"
 
 UI* UI::instance_ = nullptr;
+sf::Color UI::current_color_ = sf::Color::Red;
 
 UI* UI::get_instance()
 {
@@ -24,6 +25,10 @@ void UI::button_click(std::string label, ButtonAction& selected_action)
         selected_action = current_action;
 	}
 }
+
+void UI::set_current_color(const sf::Color& color) { current_color_ = color; }
+
+sf::Color UI::get_current_color() const { return current_color_; }
 
 void UI::draw_button(const std::string& label, ButtonAction action = ButtonAction::None, ImVec2 size)
 {

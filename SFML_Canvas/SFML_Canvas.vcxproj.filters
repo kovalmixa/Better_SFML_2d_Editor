@@ -30,6 +30,9 @@
     <Filter Include="figures\rectangle_shape">
       <UniqueIdentifier>{bd5dccd9-2f45-439f-b98d-52354aa843ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="controller\selection">
+      <UniqueIdentifier>{d8c8b849-d75f-4b86-a064-0152f248f5c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
