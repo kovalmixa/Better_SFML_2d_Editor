@@ -30,7 +30,7 @@
     <Filter Include="figures\rectangle_shape">
       <UniqueIdentifier>{bd5dccd9-2f45-439f-b98d-52354aa843ab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="controller\selection">
+    <Filter Include="figures\selection">
       <UniqueIdentifier>{d8c8b849-d75f-4b86-a064-0152f248f5c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -59,6 +59,9 @@
     <ClCompile Include="controller.cpp">
       <Filter>controller</Filter>
     </ClCompile>
+    <ClCompile Include="selection.cpp">
+      <Filter>figures\selection</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ellipse_shape.h">
@@ -78,6 +81,12 @@
     </ClInclude>
     <ClInclude Include="controller.h">
       <Filter>controller</Filter>
+    </ClInclude>
+    <ClInclude Include="selection.h">
+      <Filter>figures\selection</Filter>
+    </ClInclude>
+    <ClInclude Include="transform_data.h">
+      <Filter>figures</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

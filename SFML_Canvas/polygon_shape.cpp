@@ -3,6 +3,10 @@
 
 #include "polygon_shape.h"
 
+void PolygonShape::apply_transform()
+{
+}
+
 void PolygonShape::setup_polygon_points()
 {
     for (int i = 0; i < 6; ++i) {

@@ -4,8 +4,8 @@
 
 class EllipseShape : public PolygonShape
 {
+protected:
+	void apply_transform() override;
 public:
 	EllipseShape();
-
-	void set_transform(sf::Vector2f position, sf::Vector2f size, sf::Angle rotation) override;
 };

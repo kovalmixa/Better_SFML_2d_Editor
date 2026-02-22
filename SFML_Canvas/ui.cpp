@@ -6,10 +6,7 @@
 UI* UI::instance_ = nullptr;
 sf::Color UI::current_color_ = sf::Color::Red;
 
-UI* UI::get_instance()
-{
-	return instance_ ? instance_ : (instance_ = new UI());
-}
+UI* UI::get_instance() { return instance_ ? instance_ : (instance_ = new UI()); }
 
 void UI::button_click(std::string label, ButtonAction& selected_action)
 {
