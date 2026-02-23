@@ -16,6 +16,7 @@ public:
     virtual void set_transform(sf::Vector2f position, sf::Vector2f size, sf::Angle rotation);
     virtual void set_transform(TransformData transform_data);
     virtual TransformData get_transform();
+    virtual sf::FloatRect get_global_bounds();
 
     virtual sf::Color get_color();
     virtual void set_color(sf::Color color);

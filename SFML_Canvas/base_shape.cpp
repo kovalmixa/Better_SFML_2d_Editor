@@ -10,7 +10,6 @@ void BaseShape::set_pivot_center()
 
 BaseShape::BaseShape()
 {
-
 }
 
 BaseShape::~BaseShape()
@@ -24,20 +23,24 @@ void BaseShape::set_transform(sf::Vector2f position, sf::Vector2f size, sf::Angl
 	transform_data_.position = position;
 	transform_data_.size = size;
 	transform_data_.rotation = rotation;
+	apply_transform();
+	set_pivot_center();
 }
 
 void BaseShape::set_transform(TransformData transform_data) { transform_data_ = transform_data; }
 
 TransformData BaseShape::get_transform() { return transform_data_; }
 
+sf::FloatRect BaseShape::get_global_bounds() { return shape_->getGlobalBounds(); }
+
 sf::Color BaseShape::get_color() { return shape_->getFillColor(); }
 
 void BaseShape::set_color(sf::Color color) { shape_->setFillColor(color); }
 
 void BaseShape::set_outline(bool show)
-{
-	shape_->setOutlineColor(get_inverted_color(shape_->getFillColor()));
-	shape_->setOutlineThickness(show ? 1.f : 0.f);
+{ 
+	shape_->setOutlineColor(sf::Color::Blue);
+	shape_->setOutlineThickness(show ? 2.f : 0.f);
 }
 
 void BaseShape::draw(sf::RenderWindow& window) { window.draw(*shape_); }

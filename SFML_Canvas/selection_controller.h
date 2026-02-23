@@ -2,7 +2,7 @@
 #include <list>
 #include "base_shape.h"
 
-enum class ResizeMode {
+enum class TransformMode {
     None,
     Angle,
     Center,
@@ -19,23 +19,26 @@ enum class ResizeMode {
 class Selection {
 private:
 	static Selection* instance_;
-    std::list<BaseShape*> selected_shapes;
-	std::unordered_map<ResizeMode, sf::Shape*> transform_points_;
+    std::list<BaseShape*> selected_shapes_;
+    sf::RectangleShape selection_rect_;
+    TransformData transform_data;
+	std::unordered_map<TransformMode, sf::Shape*> transform_points_;
+
 	const float TRANSFORM_POINTS_SIZE = 5.f;
-	ResizeMode current_resize_ = ResizeMode::None;
-	TransformData transform_data;
     bool is_resizing_ = false;
-    bool is_selected_ = false;
+    bool is_selection_active_ = false;
+    TransformMode active_transform_mode_ = TransformMode::None;
 
     Selection();
     ~Selection();
 
+	void update_transform_data();
     void update_transform_points();
 public:
-    Selection* get_instance();
+    static Selection* get_instance();
 
-	bool try_select_shape(BaseShape* shape, sf::Vector2f point);
-    void try_add_figure_to_selection(BaseShape* shape);
+	bool try_select_shape(BaseShape* shape, sf::Vector2f point, bool is_union);
+    void try_add_figure_to_selection(BaseShape* shape, bool is_union);
 	void clear_selection();
 
     void draw_selection(sf::RenderWindow& window);

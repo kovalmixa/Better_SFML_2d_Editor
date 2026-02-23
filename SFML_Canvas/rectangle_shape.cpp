@@ -11,7 +11,6 @@ RectangleShape::RectangleShape()
 {
 	shape_ = new sf::RectangleShape({ 1.f, 1.f });
 	shape_->setFillColor(sf::Color::White);
-	set_pivot_center();
 }
 
 bool RectangleShape::contains(sf::Vector2f point)

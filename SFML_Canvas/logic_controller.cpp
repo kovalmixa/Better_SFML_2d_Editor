@@ -3,15 +3,16 @@
 #include <SFML/System/Exception.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "ui.h"
-#include "controller.h"
+#include "ui_controller.h"
+#include "logic_controller.h"
+#include "selection_controller.h"
 #include "rectangle_shape.h"
 #include "polygon_shape.h"
 #include "ellipse_shape.h"
 
-Controller* Controller::instance_ = nullptr;
+LogicController* LogicController::instance_ = nullptr;
 
-Controller::Controller()
+LogicController::LogicController()
 {
 	handlers_ = {
 		{ButtonAction::Ellipse,  [this](sf::Vector2f position) { spawn_ellipse(position); }},
@@ -22,13 +23,13 @@ Controller::Controller()
 	};
 }
 
-Controller::~Controller()
+LogicController::~LogicController()
 {
 	for (auto shape : shapes_) delete shape;
 	shapes_.clear();
 }
 
-void Controller::spawn_ellipse(sf::Vector2f position)
+void LogicController::spawn_ellipse(sf::Vector2f position)
 {
 	try
 	{
@@ -40,7 +41,7 @@ void Controller::spawn_ellipse(sf::Vector2f position)
 	}
 }
 
-void Controller::spawn_polygon(sf::Vector2f position)
+void LogicController::spawn_polygon(sf::Vector2f position)
 {
 	try
 	{
@@ -52,18 +53,18 @@ void Controller::spawn_polygon(sf::Vector2f position)
 	}
 }
 
-void Controller::copy_color(sf::Vector2f position)
+void LogicController::copy_color(sf::Vector2f position)
 {
 	try
 	{
 		for (auto it = shapes_.rbegin(); it != shapes_.rend(); ++it) {
 			if ((*it)->contains(position)) {
 				(*it)->get_color();
-				UI::get_instance()->set_current_color((*it)->get_color());
+				UIController::get_instance()->set_current_color((*it)->get_color());
 				break;
 			}
 		}
-		UI::get_instance()->current_action = ButtonAction::None;
+		UIController::get_instance()->current_action = ButtonAction::None;
 	}
 	catch (sf::Exception exception)
 	{
@@ -71,14 +72,14 @@ void Controller::copy_color(sf::Vector2f position)
 	}
 }
 
-void Controller::paint_figure(sf::Vector2f position)
+void LogicController::paint_figure(sf::Vector2f position)
 {
 	try
 	{
 		//if (selected) selected->set_color(color);
 		for (auto it = shapes_.rbegin(); it != shapes_.rend(); ++it) {
 			if ((*it)->contains(position)) {
-				(*it)->set_color(UI::get_instance()->get_current_color());
+				(*it)->set_color(UIController::get_instance()->get_current_color());
 				break;
 			}
 		}
@@ -89,13 +90,13 @@ void Controller::paint_figure(sf::Vector2f position)
 	}
 }
 
-void Controller::spawn_rectangle(sf::Vector2f position)
+void LogicController::spawn_rectangle(sf::Vector2f position)
 {
 	try
 	{
 		RectangleShape* new_rectangle = new RectangleShape();
 		new_rectangle->set_transform(position, { 20, 20 }, sf::degrees(0.f));
-		new_rectangle->set_color(UI::get_instance()->get_current_color());
+		new_rectangle->set_color(UIController::get_instance()->get_current_color());
 		shapes_.push_back(new_rectangle);
 	}
 	catch (sf::Exception exception)
@@ -104,35 +105,33 @@ void Controller::spawn_rectangle(sf::Vector2f position)
 	}
 }
 
-void Controller::try_select_shape(sf::Vector2f position)
+void LogicController::try_find_shape_to_select(sf::Vector2f position)
 {
-	if (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl) ||
-		sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))) {
-		for (auto shape : selected_shapes_)	shape->switch_selection();
-		selected_shapes_.clear();
-	}
-
-	for (auto it = shapes_.rbegin(); it != shapes_.rend(); ++it){
-		if ((*it)->try_select(position)) {
-			selected_shapes_.push_back(*it);
-			break;
-		}
-	}
+	bool ctrl_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl) ||
+		sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl);
+	auto selection = Selection::get_instance();
+	for (auto it = shapes_.rbegin(); it != shapes_.rend(); ++it)
+		if (selection->try_select_shape(*it, position, ctrl_pressed)) return;
+	selection->clear_selection();
 }
 
-Controller* Controller::get_instance() { return instance_ ? instance_ : instance_ = new Controller(); }
+LogicController* LogicController::get_instance() { return instance_ ? instance_ : instance_ = new LogicController(); }
 
-void Controller::execute_action(ButtonAction action, sf::Vector2f mouse_position)
+void LogicController::execute_action(ButtonAction action, sf::Vector2f mouse_position)
 {
 	auto it = handlers_.find(action);
 	if (it != handlers_.end()) it->second(mouse_position);
-	else try_select_shape(mouse_position);
+	else try_find_shape_to_select(mouse_position);
 }
 
-void Controller::render_shapes(sf::RenderWindow& window)
+void LogicController::remove_actions()
 {
-	for (auto& shape : shapes_) {
-		shape->draw(window);
-	}
-	// выделения фигур
+	UIController::get_instance()->current_action = ButtonAction::None;
+	Selection::get_instance()->clear_selection();
+}
+
+void LogicController::render_shapes(sf::RenderWindow& window)
+{
+	for (auto& shape : shapes_) shape->draw(window);
+	Selection::get_instance()->draw_selection(window);
 }

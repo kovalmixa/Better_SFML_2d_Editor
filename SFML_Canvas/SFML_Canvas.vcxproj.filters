@@ -9,84 +9,84 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="figures">
+    <Filter Include="Source Files\figures">
       <UniqueIdentifier>{2d5981be-d5f8-42a4-ba56-3e9f6e56fa7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="figures\base_shape">
+    <Filter Include="Source Files\figures\base_shape">
       <UniqueIdentifier>{34b417e1-174b-430b-8d5f-d284dac9c9f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ui">
-      <UniqueIdentifier>{df0b7eac-8426-4a40-bb2e-659c9d9057eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="controller">
-      <UniqueIdentifier>{b442316c-6868-4985-9dc8-eda3024ffbb7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="figures\ellipse_shape">
+    <Filter Include="Source Files\figures\ellipse_shape">
       <UniqueIdentifier>{7fc0438f-afc5-4b9a-9e21-a32b4d91e4d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="figures\polygon_shape">
+    <Filter Include="Source Files\figures\polygon_shape">
       <UniqueIdentifier>{de0efe1d-b22c-482b-ba54-96417d217f48}</UniqueIdentifier>
     </Filter>
-    <Filter Include="figures\rectangle_shape">
+    <Filter Include="Source Files\figures\rectangle_shape">
       <UniqueIdentifier>{bd5dccd9-2f45-439f-b98d-52354aa843ab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="figures\selection">
+    <Filter Include="Source Files\global_controllers">
+      <UniqueIdentifier>{73191e43-b981-4c44-bcfe-4294f412f007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\global_controllers\logic_controller">
+      <UniqueIdentifier>{b442316c-6868-4985-9dc8-eda3024ffbb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\global_controllers\logic_controller\selection_controller">
       <UniqueIdentifier>{d8c8b849-d75f-4b86-a064-0152f248f5c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\global_controllers\ui_controller">
+      <UniqueIdentifier>{df0b7eac-8426-4a40-bb2e-659c9d9057eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="base_shape.cpp">
-      <Filter>figures\base_shape</Filter>
+      <Filter>Source Files\figures\base_shape</Filter>
     </ClCompile>
     <ClCompile Include="ellipse_shape.cpp">
-      <Filter>figures\ellipse_shape</Filter>
+      <Filter>Source Files\figures\ellipse_shape</Filter>
     </ClCompile>
     <ClCompile Include="rectangle_shape.cpp">
-      <Filter>figures\rectangle_shape</Filter>
+      <Filter>Source Files\figures\rectangle_shape</Filter>
     </ClCompile>
     <ClCompile Include="basic_functions.h">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="polygon_shape.cpp">
-      <Filter>figures\polygon_shape</Filter>
+      <Filter>Source Files\figures\polygon_shape</Filter>
     </ClCompile>
-    <ClCompile Include="ui.cpp">
-      <Filter>ui</Filter>
+    <ClCompile Include="ui_controller.cpp">
+      <Filter>Source Files\global_controllers\ui_controller</Filter>
     </ClCompile>
-    <ClCompile Include="controller.cpp">
-      <Filter>controller</Filter>
+    <ClCompile Include="logic_controller.cpp">
+      <Filter>Source Files\global_controllers\logic_controller</Filter>
     </ClCompile>
-    <ClCompile Include="selection.cpp">
-      <Filter>figures\selection</Filter>
+    <ClCompile Include="selection_controller.cpp">
+      <Filter>Source Files\global_controllers\logic_controller\selection_controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ellipse_shape.h">
-      <Filter>figures\ellipse_shape</Filter>
+      <Filter>Source Files\figures\ellipse_shape</Filter>
     </ClInclude>
     <ClInclude Include="rectangle_shape.h">
-      <Filter>figures\rectangle_shape</Filter>
+      <Filter>Source Files\figures\rectangle_shape</Filter>
     </ClInclude>
     <ClInclude Include="polygon_shape.h">
-      <Filter>figures\polygon_shape</Filter>
+      <Filter>Source Files\figures\polygon_shape</Filter>
     </ClInclude>
     <ClInclude Include="base_shape.h">
-      <Filter>figures\base_shape</Filter>
+      <Filter>Source Files\figures\base_shape</Filter>
     </ClInclude>
-    <ClInclude Include="ui.h">
-      <Filter>ui</Filter>
+    <ClInclude Include="ui_controller.h">
+      <Filter>Source Files\global_controllers\ui_controller</Filter>
     </ClInclude>
-    <ClInclude Include="controller.h">
-      <Filter>controller</Filter>
+    <ClInclude Include="logic_controller.h">
+      <Filter>Source Files\global_controllers\logic_controller</Filter>
     </ClInclude>
-    <ClInclude Include="selection.h">
-      <Filter>figures\selection</Filter>
+    <ClInclude Include="selection_controller.h">
+      <Filter>Source Files\global_controllers\logic_controller\selection_controller</Filter>
     </ClInclude>
     <ClInclude Include="transform_data.h">
-      <Filter>figures</Filter>
+      <Filter>Source Files\figures</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

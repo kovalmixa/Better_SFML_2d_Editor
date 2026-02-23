@@ -9,8 +9,8 @@
 #include <vector>
 
 #include "basic_functions.h"
-#include "controller.h"
-#include "ui.h"
+#include "logic_controller.h"
+#include "ui_controller.h"
 
 static std::atomic running(true);
 static std::mutex event_mutex;
@@ -25,15 +25,20 @@ void logic_pipeline(sf::RenderWindow* window, const std::vector<sf::Event>& even
         ImGui::SFML::ProcessEvent(*window, event);
         if (const auto* mouseEvent = event.getIf<sf::Event::MouseButtonPressed>())
         {
-            if (mouseEvent->button == sf::Mouse::Button::Left)
+            switch (mouseEvent->button)
+            {
+            case sf::Mouse::Button::Left :
             {
                 bool overUI = ImGui::IsAnyItemHovered() || ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow);
                 if (!overUI)
                 {
                     //std::cout << "Logic: Canvas Click!" << std::endl;
-					sf::Vector2f mouse_position = window->mapPixelToCoords(mouseEvent->position);
-                    Controller::get_instance()->execute_action(UI::get_instance()->current_action, mouse_position);
+                    sf::Vector2f mouse_position = window->mapPixelToCoords(mouseEvent->position);
+                    LogicController::get_instance()->execute_action(UIController::get_instance()->current_action, mouse_position);
                 }
+                break;
+            }
+            case sf::Mouse::Button::Right : LogicController::get_instance()->remove_actions();
             }
         }
         if (event.is<sf::Event::Closed>())
@@ -55,7 +60,7 @@ void rendering_pipeline(sf::RenderWindow* window, ImGuiIO* io){
     if (ImGui::BeginMainMenuBar())
     {
         ImGui::BeginGroup();
-        auto ui = UI::get_instance();
+        auto ui = UIController::get_instance();
         ui->draw_button("Ellipse", ButtonAction::Ellipse);
         ImGui::SameLine();
         ui->draw_button("Rectangle", ButtonAction::Rectangle);
@@ -94,10 +99,10 @@ void rendering_pipeline(sf::RenderWindow* window, ImGuiIO* io){
         ImGui::EndMainMenuBar();
     }
 
-    //window->clear(sf::Color(30, 30, 30));
-    window->clear(rainbow_function(x));
+    window->clear(sf::Color(30, 30, 30));
+    //window->clear(rainbow_function(x));
 
-    Controller::get_instance()->render_shapes(*window);
+    LogicController::get_instance()->render_shapes(*window);
     ImGui::SFML::Render(*window);
 
     window->display();

@@ -1,14 +1,14 @@
 #include <imgui-sfml.h>
 #include <imgui.h>
 
-#include "ui.h"
+#include "ui_controller.h"
 
-UI* UI::instance_ = nullptr;
-sf::Color UI::current_color_ = sf::Color::Red;
+UIController* UIController::instance_ = nullptr;
+sf::Color UIController::current_color_ = sf::Color::White;
 
-UI* UI::get_instance() { return instance_ ? instance_ : (instance_ = new UI()); }
+UIController* UIController::get_instance() { return instance_ ? instance_ : (instance_ = new UIController()); }
 
-void UI::button_click(std::string label, ButtonAction& selected_action)
+void UIController::button_click(std::string label, ButtonAction& selected_action)
 {
 	auto it = buttons.find(label);
 	if (it == buttons.end()) return;
@@ -23,11 +23,11 @@ void UI::button_click(std::string label, ButtonAction& selected_action)
 	}
 }
 
-void UI::set_current_color(const sf::Color& color) { current_color_ = color; }
+void UIController::set_current_color(const sf::Color& color) { current_color_ = color; }
 
-sf::Color UI::get_current_color() const { return current_color_; }
+sf::Color UIController::get_current_color() const { return current_color_; }
 
-void UI::draw_button(const std::string& label, ButtonAction action = ButtonAction::None, ImVec2 size)
+void UIController::draw_button(const std::string& label, ButtonAction action = ButtonAction::None, ImVec2 size)
 {
     auto it = buttons.find(label);
     if (it == buttons.end()) buttons.insert(std::pair<const std::string, ButtonAction> (label, action));

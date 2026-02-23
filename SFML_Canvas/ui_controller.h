@@ -12,18 +12,17 @@ enum class ButtonAction
 	Polygon,
 	Pipette,
 	Paint
-
 };
 
-class UI
+class UIController
 {
 private:
 	std::map<std::string, ButtonAction> buttons;
-	static UI* instance_;
-	UI() = default;
+	static UIController* instance_;
+	UIController() = default;
 	static sf::Color current_color_;
 public:
-	static UI* get_instance();
+	static UIController* get_instance();
 	ButtonAction current_action = ButtonAction::None;
 
 	void button_click(std::string label, ButtonAction& tool);

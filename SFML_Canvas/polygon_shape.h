@@ -4,8 +4,6 @@
 class PolygonShape : public BaseShape
 {
 protected:
-	float width_ = 1;
-	float height_ = 1;
 	int num_points_ = 3;
 
 	virtual void apply_transform() override;
