@@ -20,27 +20,46 @@ static int x = 0;
 
 void logic_pipeline(sf::RenderWindow* window, const std::vector<sf::Event>& events)
 {
+    auto logic_controller = LogicController::get_instance();
+    auto ui_controller = UIController::get_instance();
     for (auto& event : events)
     {
         ImGui::SFML::ProcessEvent(*window, event);
+
+        // Mouse pressed
         if (const auto* mouseEvent = event.getIf<sf::Event::MouseButtonPressed>())
         {
-            switch (mouseEvent->button)
+            bool overUI = ImGui::IsAnyItemHovered() || ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow);
+            if (!overUI)
             {
-            case sf::Mouse::Button::Left :
-            {
-                bool overUI = ImGui::IsAnyItemHovered() || ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow);
-                if (!overUI)
+                if (mouseEvent->button == sf::Mouse::Button::Left)
                 {
-                    //std::cout << "Logic: Canvas Click!" << std::endl;
                     sf::Vector2f mouse_position = window->mapPixelToCoords(mouseEvent->position);
-                    LogicController::get_instance()->execute_action(UIController::get_instance()->current_action, mouse_position);
+                    logic_controller->execute_action(ui_controller->current_action, mouse_position);
+                    logic_controller->begin_drag(mouse_position);
                 }
-                break;
+                else if (const auto* mouseEvent = event.getIf<sf::Event::MouseButtonReleased>())
+                {
+                    if (mouseEvent->button == sf::Mouse::Button::Left)
+                        logic_controller->end_drag();
+                }
+                else if (mouseEvent->button == sf::Mouse::Button::Right)
+                {
+
+                }
             }
-            case sf::Mouse::Button::Right : LogicController::get_instance()->remove_actions();
+            else if (mouseEvent->button == sf::Mouse::Button::Right) logic_controller->remove_actions();
+            if (mouseEvent->button == sf::Mouse::Button::Left)
+            {
+                // Handle UI interactions if necessary
             }
         }
+
+		//Mouse released
+        if (const auto* mouseEvent = event.getIf<sf::Event::MouseButtonReleased>())
+            if (mouseEvent->button == sf::Mouse::Button::Left)
+                logic_controller->end_drag();
+
         if (event.is<sf::Event::Closed>())
         {
             running = false;
@@ -51,6 +70,15 @@ void logic_pipeline(sf::RenderWindow* window, const std::vector<sf::Event>& even
             window->setView(sf::View(visibleArea));
         }
     }
+
+    // Mouse drag handling
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+    {
+        sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
+        sf::Vector2f worldPos = window->mapPixelToCoords(pixelPos);
+        logic_controller->update_drag(ui_controller->current_action, worldPos);
+    }
+
     event_queue.clear();
 }
 

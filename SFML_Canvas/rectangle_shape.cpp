@@ -1,10 +1,13 @@
+#include "basic_functions.h"
 #include "rectangle_shape.h"
 
 void RectangleShape::apply_transform()
 {
-	shape_->setPosition(transform_data_.position);
-	shape_->setRotation(transform_data_.rotation);
-	dynamic_cast<sf::RectangleShape*>(shape_)->setSize(transform_data_.size);
+    auto rect = dynamic_cast<sf::RectangleShape*>(shape_);
+    rect->setSize(transform_data_.size);
+    set_pivot_center_to_shape(*shape_);
+    shape_->setPosition(transform_data_.position);
+    shape_->setRotation(transform_data_.rotation);
 }
 
 RectangleShape::RectangleShape()

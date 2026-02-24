@@ -16,32 +16,44 @@ enum class TransformMode {
     Bottom,
 };
 
-class Selection {
+class SelectionController {
 private:
-	static Selection* instance_;
+	static SelectionController* instance_;
     std::list<BaseShape*> selected_shapes_;
     sf::RectangleShape selection_rect_;
     TransformData transform_data;
+    TransformData last_transform_data;
 	std::unordered_map<TransformMode, sf::Shape*> transform_points_;
 
 	const float TRANSFORM_POINTS_SIZE = 5.f;
-    bool is_resizing_ = false;
+	const float TRANSFORM_POINTS_DRAG_RADIUS_OFFSET = 10.f;
+    bool is_transforming_ = false;
     bool is_selection_active_ = false;
     TransformMode active_transform_mode_ = TransformMode::None;
 
-    Selection();
-    ~Selection();
+    SelectionController();
+    ~SelectionController();
 
 	void update_transform_data();
     void update_transform_points();
+
+	bool is_point_near_transform_point(sf::Vector2f point, sf::Shape* transform_point);
+	void drag_rotation(sf::Vector2f mouse_position);
+	void drag_movement(sf::Vector2f mouse_position);
+	void drag_resize(sf::Vector2f mouse_position, TransformMode trans_mode);
+	void drag_selection(sf::Vector2f mouse_position);
+
+	void update_transform_to_selected_shapes();
 public:
-    static Selection* get_instance();
+    static SelectionController* get_instance();
 
 	bool try_select_shape(BaseShape* shape, sf::Vector2f point, bool is_union);
     void try_add_figure_to_selection(BaseShape* shape, bool is_union);
 	void clear_selection();
 
+    void begin_drag_transform_mode(sf::Vector2f mouse_position);
+    void end_drag_transform_mode();
+    void update_transform(sf::Vector2f mouse_position);
+
     void draw_selection(sf::RenderWindow& window);
-    void try_resize(sf::Vector2f mouse_position);
-	void resize_selected_shapes(sf::Vector2f mouse_position);
 };

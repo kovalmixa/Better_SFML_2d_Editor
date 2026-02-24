@@ -1,13 +1,6 @@
 #include "base_shape.h"
 #include "basic_functions.h"
 
-
-void BaseShape::set_pivot_center()
-{
-	auto local = shape_->getLocalBounds();
-	shape_->setOrigin({ local.size.x / 2.f, local.size.y / 2.f });
-}
-
 BaseShape::BaseShape()
 {
 }
@@ -24,10 +17,13 @@ void BaseShape::set_transform(sf::Vector2f position, sf::Vector2f size, sf::Angl
 	transform_data_.size = size;
 	transform_data_.rotation = rotation;
 	apply_transform();
-	set_pivot_center();
 }
 
-void BaseShape::set_transform(TransformData transform_data) { transform_data_ = transform_data; }
+void BaseShape::set_transform(TransformData transform_data) 
+{
+	transform_data_ = transform_data;
+	apply_transform();
+}
 
 TransformData BaseShape::get_transform() { return transform_data_; }
 

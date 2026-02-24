@@ -109,7 +109,7 @@ void LogicController::try_find_shape_to_select(sf::Vector2f position)
 {
 	bool ctrl_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl) ||
 		sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl);
-	auto selection = Selection::get_instance();
+	auto selection = SelectionController::get_instance();
 	for (auto it = shapes_.rbegin(); it != shapes_.rend(); ++it)
 		if (selection->try_select_shape(*it, position, ctrl_pressed)) return;
 	selection->clear_selection();
@@ -124,14 +124,48 @@ void LogicController::execute_action(ButtonAction action, sf::Vector2f mouse_pos
 	else try_find_shape_to_select(mouse_position);
 }
 
+void LogicController::begin_drag(sf::Vector2f mouse_position)
+{
+	is_dragging_ = true;
+	SelectionController::get_instance()->begin_drag_transform_mode(mouse_position);
+}
+
+void LogicController::end_drag()
+{
+	is_dragging_ = false;
+	SelectionController::get_instance()->end_drag_transform_mode();
+}
+
+void LogicController::update_drag(ButtonAction action, sf::Vector2f mouse_position)
+{
+	if (!is_dragging_) return;
+	auto selection = SelectionController::get_instance();
+	switch (action)
+	{
+	case ButtonAction::None : selection->update_transform(mouse_position); break;
+	case ButtonAction::Ellipse:
+		break;
+	case ButtonAction::Rectangle:
+		break;
+	case ButtonAction::Polygon:
+		break;
+	case ButtonAction::Pipette:
+		break;
+	case ButtonAction::Paint:
+		break;
+	default:
+		break;
+	}
+}
+
 void LogicController::remove_actions()
 {
 	UIController::get_instance()->current_action = ButtonAction::None;
-	Selection::get_instance()->clear_selection();
+	SelectionController::get_instance()->clear_selection();
 }
 
 void LogicController::render_shapes(sf::RenderWindow& window)
 {
 	for (auto& shape : shapes_) shape->draw(window);
-	Selection::get_instance()->draw_selection(window);
+	SelectionController::get_instance()->draw_selection(window);
 }

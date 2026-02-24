@@ -29,6 +29,9 @@ private:
 public:
 	static LogicController* get_instance();
 	void execute_action(ButtonAction action, sf::Vector2f mouse_position);
+	void begin_drag(sf::Vector2f mouse_position);
+	void end_drag();
+	void update_drag(ButtonAction action, sf::Vector2f mouse_position);
 	void remove_actions();
 	void render_shapes(sf::RenderWindow& window);
 };

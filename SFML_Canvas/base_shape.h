@@ -8,7 +8,6 @@ protected:
 	TransformData transform_data_;
 
 	virtual void apply_transform() = 0;
-    void set_pivot_center();
 public:
     BaseShape();
     virtual ~BaseShape();
