@@ -11,6 +11,7 @@
 #include "basic_functions.h"
 #include "logic_controller.h"
 #include "ui_controller.h"
+#include "selection_controller.h"
 
 static std::atomic running(true);
 static std::mutex event_mutex;
@@ -22,43 +23,45 @@ void logic_pipeline(sf::RenderWindow* window, const std::vector<sf::Event>& even
 {
     auto logic_controller = LogicController::get_instance();
     auto ui_controller = UIController::get_instance();
+    std::map<sf::Keyboard::Key, bool> keys;
+    sf::Vector2f mouse_position;
+
     for (auto& event : events)
     {
         ImGui::SFML::ProcessEvent(*window, event);
+        mouse_position = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
 
         // Mouse pressed
         if (const auto* mouseEvent = event.getIf<sf::Event::MouseButtonPressed>())
         {
+            sf::Vector2f mouse_position = window->mapPixelToCoords(mouseEvent->position);
             bool overUI = ImGui::IsAnyItemHovered() || ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow);
             if (!overUI)
             {
                 if (mouseEvent->button == sf::Mouse::Button::Left)
                 {
-                    sf::Vector2f mouse_position = window->mapPixelToCoords(mouseEvent->position);
-                    logic_controller->execute_action(ui_controller->current_action, mouse_position);
-                    logic_controller->begin_drag(mouse_position);
+                    if (ui_controller->current_action == ButtonAction::None &&
+                        SelectionController::get_instance()->is_point_on_selection(mouse_position))
+                    { logic_controller->begin_drag(mouse_position); }
+                    else logic_controller->execute_action(ui_controller->current_action, mouse_position);
                 }
                 else if (const auto* mouseEvent = event.getIf<sf::Event::MouseButtonReleased>())
-                {
-                    if (mouseEvent->button == sf::Mouse::Button::Left)
-                        logic_controller->end_drag();
-                }
-                else if (mouseEvent->button == sf::Mouse::Button::Right)
+                    if (mouseEvent->button == sf::Mouse::Button::Left) logic_controller->end_drag();
+                else if (mouseEvent->button == sf::Mouse::Button::Right && 
+                    SelectionController::get_instance()->is_point_on_selection(mouse_position))
                 {
 
                 }
             }
-            else if (mouseEvent->button == sf::Mouse::Button::Right) logic_controller->remove_actions();
-            if (mouseEvent->button == sf::Mouse::Button::Left)
-            {
-                // Handle UI interactions if necessary
-            }
+            if (mouseEvent->button == sf::Mouse::Button::Right) logic_controller->remove_actions();
         }
 
 		//Mouse released
         if (const auto* mouseEvent = event.getIf<sf::Event::MouseButtonReleased>())
             if (mouseEvent->button == sf::Mouse::Button::Left)
                 logic_controller->end_drag();
+
+        logic_controller->keyboard_action_process(event, mouse_position);
 
         if (event.is<sf::Event::Closed>())
         {

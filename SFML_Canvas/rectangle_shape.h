@@ -9,5 +9,4 @@ public:
 	RectangleShape();
 
 	bool contains(sf::Vector2f point) override;
-	void resize(sf::Vector2f delta) override;
 };

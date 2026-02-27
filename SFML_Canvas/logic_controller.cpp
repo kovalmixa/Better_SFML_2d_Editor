@@ -95,7 +95,7 @@ void LogicController::spawn_rectangle(sf::Vector2f position)
 	try
 	{
 		RectangleShape* new_rectangle = new RectangleShape();
-		new_rectangle->set_transform(position, { 20, 20 }, sf::degrees(0.f));
+		new_rectangle->set_transform(position, { SHAPE_SPAWN_SIZE, SHAPE_SPAWN_SIZE }, sf::degrees(0.f));
 		new_rectangle->set_color(UIController::get_instance()->get_current_color());
 		shapes_.push_back(new_rectangle);
 	}
@@ -115,19 +115,49 @@ void LogicController::try_find_shape_to_select(sf::Vector2f position)
 	selection->clear_selection();
 }
 
-LogicController* LogicController::get_instance() { return instance_ ? instance_ : instance_ = new LogicController(); }
+LogicController* LogicController::get_instance() 
+{ return instance_ ? instance_ : instance_ = new LogicController(); }
 
 void LogicController::execute_action(ButtonAction action, sf::Vector2f mouse_position)
 {
+	if (is_dragging_) return;
 	auto it = handlers_.find(action);
 	if (it != handlers_.end()) it->second(mouse_position);
 	else try_find_shape_to_select(mouse_position);
 }
 
+void LogicController::keyboard_action_process(sf::Event event, sf::Vector2f mouse_position)
+{
+	if (!event.is<sf::Event::KeyPressed>()) return;
+	const auto* key = event.getIf<sf::Event::KeyPressed>();
+	auto selection_controller = SelectionController::get_instance();
+
+	if (key->code == sf::Keyboard::Key::Delete ||
+		key->code == sf::Keyboard::Key::Backspace)
+	{ selection_controller->delete_selected_shapes(); }
+
+	if (key->control) {
+		switch (key->code)
+		{
+			case sf::Keyboard::Key::C:
+			{ selection_controller->try_copy_shapes(); break; }
+			case sf::Keyboard::Key::X:
+			{
+				selection_controller->try_copy_shapes();
+				selection_controller->delete_selected_shapes();
+				break;
+			}
+			case sf::Keyboard::Key::V:
+			{ selection_controller->try_paste_shapes(mouse_position); }
+		}
+	}
+}
+
 void LogicController::begin_drag(sf::Vector2f mouse_position)
 {
+	if (is_dragging_) return;
 	is_dragging_ = true;
-	SelectionController::get_instance()->begin_drag_transform_mode(mouse_position);
+	SelectionController::get_instance()->try_begin_drag_transform_mode(mouse_position);
 }
 
 void LogicController::end_drag()
@@ -162,6 +192,24 @@ void LogicController::remove_actions()
 {
 	UIController::get_instance()->current_action = ButtonAction::None;
 	SelectionController::get_instance()->clear_selection();
+}
+
+void LogicController::add_shape(BaseShape* shape)
+{ shapes_.push_back(shape); }
+
+void LogicController::delete_shape(BaseShape*& shape)
+{
+	if (!shape) return;
+	SelectionController::get_instance()->remove_shape_from_selection(shape);
+	auto found = std::find(shapes_.begin(), shapes_.end(), shape);
+	if (found == shapes_.end()) {
+		shape = nullptr;
+		return;
+	}
+	shapes_.erase(found);
+	delete shape;
+	shape = nullptr;
+	end_drag();
 }
 
 void LogicController::render_shapes(sf::RenderWindow& window)

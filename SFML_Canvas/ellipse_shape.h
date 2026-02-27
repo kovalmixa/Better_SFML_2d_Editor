@@ -8,4 +8,6 @@ protected:
 	void apply_transform() override;
 public:
 	EllipseShape();
+
+	BaseShape* clone() override;
 };

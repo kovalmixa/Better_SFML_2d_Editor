@@ -36,6 +36,15 @@
     <Filter Include="Source Files\global_controllers\ui_controller">
       <UniqueIdentifier>{df0b7eac-8426-4a40-bb2e-659c9d9057eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\figures\base_shape\particle_system">
+      <UniqueIdentifier>{a4d8d361-6df1-4c90-a4ee-d15ac56bff64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\figures\base_shape\particle_system\particle">
+      <UniqueIdentifier>{cbd93dc4-a0fb-4f75-88d8-6a9385636f59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\figures\transform_data">
+      <UniqueIdentifier>{398732b8-cdba-46f9-8d73-9ce5b3e5399e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base_shape.cpp">
@@ -62,6 +71,18 @@
     <ClCompile Include="selection_controller.cpp">
       <Filter>Source Files\global_controllers\logic_controller\selection_controller</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="particle_system.cpp">
+      <Filter>Source Files\figures\base_shape\particle_system</Filter>
+    </ClCompile>
+    <ClCompile Include="particle.cpp">
+      <Filter>Source Files\figures\base_shape\particle_system\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="transform_data.cpp">
+      <Filter>Source Files\figures\transform_data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ellipse_shape.h">
@@ -85,8 +106,14 @@
     <ClInclude Include="selection_controller.h">
       <Filter>Source Files\global_controllers\logic_controller\selection_controller</Filter>
     </ClInclude>
+    <ClInclude Include="particle_system.h">
+      <Filter>Source Files\figures\base_shape\particle_system</Filter>
+    </ClInclude>
+    <ClInclude Include="particle.h">
+      <Filter>Source Files\figures\base_shape\particle_system\particle</Filter>
+    </ClInclude>
     <ClInclude Include="transform_data.h">
-      <Filter>Source Files\figures</Filter>
+      <Filter>Source Files\figures\transform_data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

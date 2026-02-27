@@ -13,6 +13,7 @@ private:
 	std::deque<BaseShape*> shapes_;
 	std::map<ButtonAction, std::function<void(sf::Vector2f)>> handlers_;
 
+	const float SHAPE_SPAWN_SIZE = 40;
 	bool is_dragging_ = false;
 	sf::Vector2f drag_start_;
 
@@ -28,10 +29,15 @@ private:
 	void try_find_shape_to_select(sf::Vector2f position);
 public:
 	static LogicController* get_instance();
+
 	void execute_action(ButtonAction action, sf::Vector2f mouse_position);
+	void keyboard_action_process(const sf::Event event, sf::Vector2f mouse_position);
 	void begin_drag(sf::Vector2f mouse_position);
 	void end_drag();
+
 	void update_drag(ButtonAction action, sf::Vector2f mouse_position);
 	void remove_actions();
+	void add_shape(BaseShape* shape);
+	void delete_shape(BaseShape*& shape);
 	void render_shapes(sf::RenderWindow& window);
 };

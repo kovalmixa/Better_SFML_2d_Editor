@@ -24,4 +24,6 @@ public:
 
     virtual bool contains(sf::Vector2f point) = 0;
     virtual void resize(sf::Vector2f delta) = 0;
+
+    virtual BaseShape* clone() = 0;
 };

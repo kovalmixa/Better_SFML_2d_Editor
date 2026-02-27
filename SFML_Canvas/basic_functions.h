@@ -24,7 +24,7 @@ static sf::Color get_inverted_color(const sf::Color color)
 static void set_pivot_center_to_shape(sf::Shape& shape)
 {
     auto local = shape.getLocalBounds();
-    shape.setOrigin({ local.size.x / 2.f, local.size.y / 2.f });
+    shape.setOrigin({ local.position.x + local.size.x / 2.f, local.position.y + local.size.y / 2.f });
 }
 
 static double euclidean_distance(const sf::Vector2f point1, const sf::Vector2f point2) {

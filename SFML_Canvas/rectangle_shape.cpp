@@ -17,10 +17,12 @@ RectangleShape::RectangleShape()
 }
 
 bool RectangleShape::contains(sf::Vector2f point)
-{
-	return dynamic_cast<sf::RectangleShape*>(shape_)->getGlobalBounds().contains(point);
-}
+{ return dynamic_cast<sf::RectangleShape*>(shape_)->getGlobalBounds().contains(point); }
 
-void RectangleShape::resize(sf::Vector2f delta)
+BaseShape* RectangleShape::clone()
 {
+	auto* copy = new RectangleShape();
+	copy->set_transform(this->get_transform());
+	copy->set_color(this->get_color());
+	return copy;
 }
