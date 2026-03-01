@@ -8,5 +8,6 @@ protected:
 public:
 	RectangleShape();
 
-	bool contains(sf::Vector2f point) override;
+	bool contains(const sf::Vector2f point) override;
+	BaseShape* clone() override;
 };

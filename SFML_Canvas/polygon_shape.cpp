@@ -6,36 +6,39 @@
 void PolygonShape::apply_transform()
 {
     shape_->setPosition(transform_data_.position);
-    set_size(transform_data_.size);
-    //dynamic_cast<sf::RectangleShape*>(shape_)->setSize(transform_data_.size);
+    setup_polygon_points();
     shape_->setRotation(transform_data_.rotation);
 }
 
-void PolygonShape::setup_polygon_points(int points_quantity)
+void PolygonShape::setup_polygon_points()
 {
-    for (int i = 0; i < points_quantity; ++i) {
-        float angle = 2 * M_PI * i / points_quantity;
+    for (int i = 0; i < num_points_; ++i) {
+        float angle = 2 * M_PI * i / num_points_ - (M_PI / 2);;
         float x = transform_data_.size.x * std::cos(angle);
         float y = transform_data_.size.y * std::sin(angle);
-        dynamic_cast<sf::ConvexShape*>(shape_)->
-            setPoint(i, sf::Vector2f(x, y));
+        dynamic_cast<sf::ConvexShape*>(shape_)->setPoint(i, sf::Vector2f(x, y));
     }
 }
 
-PolygonShape::PolygonShape(int points_quantity)
+PolygonShape::PolygonShape(const int points_quantity)
 {
-    if (points_quantity >= 3) points_quantity = num_points_;
-    sf::ConvexShape* polygon = new sf::ConvexShape();
-	shape_ = polygon;
-    setup_polygon_points(points_quantity);
+    set_points(points_quantity);
 }
 
-void PolygonShape::set_points(const std::vector<sf::Vector2f>& points)
+void PolygonShape::set_points(const int points_quantity)
 {
+    delete shape_;
+    if (points_quantity < 3) num_points_ = 3;
+    else num_points_ = points_quantity;
+    sf::ConvexShape* polygon = new sf::ConvexShape(points_quantity);
+    shape_ = polygon;
+    setup_polygon_points();
 }
 
 bool PolygonShape::contains(sf::Vector2f point)
-{ return dynamic_cast<sf::ConvexShape*>(shape_)->getGlobalBounds().contains(point); }
+{
+    return dynamic_cast<sf::ConvexShape*>(shape_)->getGlobalBounds().contains(point); 
+}
 
 BaseShape* PolygonShape::clone()
 {

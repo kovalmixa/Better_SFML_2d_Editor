@@ -39,11 +39,11 @@
     <Filter Include="Source Files\figures\base_shape\particle_system">
       <UniqueIdentifier>{a4d8d361-6df1-4c90-a4ee-d15ac56bff64}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\figures\base_shape\particle_system\particle">
-      <UniqueIdentifier>{cbd93dc4-a0fb-4f75-88d8-6a9385636f59}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\figures\transform_data">
       <UniqueIdentifier>{398732b8-cdba-46f9-8d73-9ce5b3e5399e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\figures\base_shape\particle_system\particle_data">
+      <UniqueIdentifier>{cbd93dc4-a0fb-4f75-88d8-6a9385636f59}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -77,8 +77,8 @@
     <ClCompile Include="particle_system.cpp">
       <Filter>Source Files\figures\base_shape\particle_system</Filter>
     </ClCompile>
-    <ClCompile Include="particle.cpp">
-      <Filter>Source Files\figures\base_shape\particle_system\particle</Filter>
+    <ClCompile Include="particle_data.cpp">
+      <Filter>Source Files\figures\base_shape\particle_system\particle_data</Filter>
     </ClCompile>
     <ClCompile Include="transform_data.cpp">
       <Filter>Source Files\figures\transform_data</Filter>
@@ -109,8 +109,8 @@
     <ClInclude Include="particle_system.h">
       <Filter>Source Files\figures\base_shape\particle_system</Filter>
     </ClInclude>
-    <ClInclude Include="particle.h">
-      <Filter>Source Files\figures\base_shape\particle_system\particle</Filter>
+    <ClInclude Include="particle_data.h">
+      <Filter>Source Files\figures\base_shape\particle_system\particle_data</Filter>
     </ClInclude>
     <ClInclude Include="transform_data.h">
       <Filter>Source Files\figures\transform_data</Filter>

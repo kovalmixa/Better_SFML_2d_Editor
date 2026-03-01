@@ -17,7 +17,9 @@ RectangleShape::RectangleShape()
 }
 
 bool RectangleShape::contains(sf::Vector2f point)
-{ return dynamic_cast<sf::RectangleShape*>(shape_)->getGlobalBounds().contains(point); }
+{
+	return dynamic_cast<sf::RectangleShape*>(shape_)->getGlobalBounds().contains(point); 
+}
 
 BaseShape* RectangleShape::clone()
 {

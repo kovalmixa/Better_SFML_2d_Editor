@@ -7,6 +7,7 @@
 #include <mutex>
 #include <optional>
 #include <vector>
+#include <random>
 
 #include "basic_functions.h"
 #include "logic_controller.h"
@@ -40,10 +41,10 @@ void logic_pipeline(sf::RenderWindow* window, const std::vector<sf::Event>& even
             {
                 if (mouseEvent->button == sf::Mouse::Button::Left)
                 {
-                    if (ui_controller->current_action == ButtonAction::None &&
+                    if (ui_controller->get_button_action() == ButtonAction::None &&
                         SelectionController::get_instance()->is_point_on_selection(mouse_position))
                     { logic_controller->begin_drag(mouse_position); }
-                    else logic_controller->execute_action(ui_controller->current_action, mouse_position);
+                    else logic_controller->execute_action(ui_controller->get_button_action(), mouse_position);
                 }
                 else if (const auto* mouseEvent = event.getIf<sf::Event::MouseButtonReleased>())
                     if (mouseEvent->button == sf::Mouse::Button::Left) logic_controller->end_drag();
@@ -79,29 +80,36 @@ void logic_pipeline(sf::RenderWindow* window, const std::vector<sf::Event>& even
     {
         sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
         sf::Vector2f worldPos = window->mapPixelToCoords(pixelPos);
-        logic_controller->update_drag(ui_controller->current_action, worldPos);
+        logic_controller->update_drag(ui_controller->get_button_action(), worldPos);
     }
 
     event_queue.clear();
 }
 
-void rendering_pipeline(sf::RenderWindow* window, ImGuiIO* io){
+void rendering_pipeline(sf::RenderWindow* window){
     ImGui::SFML::Update(*window, delta_clock.restart());
 
     if (ImGui::BeginMainMenuBar())
     {
+        #pragma region shapes picker
         ImGui::BeginGroup();
         auto ui = UIController::get_instance();
         ui->draw_button("Ellipse", ButtonAction::Ellipse);
         ImGui::SameLine();
         ui->draw_button("Rectangle", ButtonAction::Rectangle);
         ui->draw_button("Polygon", ButtonAction::Polygon);
+        const char* items[] = { "3", "5", "6", "8", "10", "12" };
+        static int selectedItem = 0;
+        ImGui::SetNextItemWidth(50.0f);
+        if (ImGui::Combo("", &selectedItem, items, IM_ARRAYSIZE(items)))
+            ui->set_polygon_points(std::stoi(items[selectedItem]));
         ImGui::EndGroup();
+        #pragma endregion
 
+        #pragma region color picker
         ImGui::BeginGroup();
         ui->draw_button("Pipette", ButtonAction::Pipette);
         ImGui::Text("Color picker:");
-
         #pragma region color_pallete_picker_code
         sf::Color current_color = ui->get_current_color();
         float color_array[4];
@@ -114,7 +122,7 @@ void rendering_pipeline(sf::RenderWindow* window, ImGuiIO* io){
             ImGuiColorEditFlags_PickerHueWheel |
             ImGuiColorEditFlags_NoInputs |
             ImGuiColorEditFlags_NoLabel)
-        )
+            )
         {
             ui->set_current_color(sf::Color(
                 static_cast<uint8_t>(color_array[0] * 255),
@@ -123,10 +131,22 @@ void rendering_pipeline(sf::RenderWindow* window, ImGuiIO* io){
                 static_cast<uint8_t>(color_array[3] * 255)
             ));
         }
-        #pragma endregion
 
+        #pragma endregion
         ui->draw_button("Paint", ButtonAction::Paint, ImVec2(50, 20));
         ImGui::EndGroup();
+        #pragma endregion
+
+        #pragma region color_pallete_picker_code
+        ImGui::BeginGroup();
+        ui->draw_button("Pipette", ButtonAction::Pipette);
+        ui->draw_button("Pipette", ButtonAction::Pipette);
+        ui->draw_button("Pipette", ButtonAction::Pipette);
+        ImGui::EndGroup();
+        #pragma endregion
+
+
+
         ImGui::EndMainMenuBar();
     }
 
@@ -139,9 +159,10 @@ void rendering_pipeline(sf::RenderWindow* window, ImGuiIO* io){
     window->display();
 }
 
-void window_render_thread(sf::RenderWindow* window, ImGuiIO* io)
+void window_render_thread(sf::RenderWindow* window)
 {
     window->setActive(true);
+    ImGui::SFML::Init(*window);
     while (running)
     {
 		x = x >= 1023 ? 0 : ++x;
@@ -151,21 +172,19 @@ void window_render_thread(sf::RenderWindow* window, ImGuiIO* io)
             current_frame_events.swap(event_queue);
         }
         logic_pipeline(window, current_frame_events);
-	    rendering_pipeline(window, io);
+	    rendering_pipeline(window);
     }
     ImGui::SFML::Shutdown();
 }
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "SFML MT");
+    sf::RenderWindow window(sf::VideoMode({ 1000, 800 }), "SFML MT");
     window.setActive(false);
     window.setFramerateLimit(60);
-
-    ImGui::SFML::Init(window);
-    ImGuiIO& io = ImGui::GetIO();
-
-    std::thread render(window_render_thread, &window, &io);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::thread render(window_render_thread, &window);
 
     while (running)
     {

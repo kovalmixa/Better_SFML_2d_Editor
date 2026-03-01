@@ -6,20 +6,20 @@
 UIController* UIController::instance_ = nullptr;
 sf::Color UIController::current_color_ = sf::Color::White;
 
-UIController* UIController::get_instance() { return instance_ ? instance_ : (instance_ = new UIController()); }
+UIController* UIController::get_instance() {  return instance_ ? instance_ : (instance_ = new UIController());}
 
 void UIController::button_click(std::string label, ButtonAction& selected_action)
 {
 	auto it = buttons.find(label);
 	if (it == buttons.end()) return;
-    if (current_action == ButtonAction::None || current_action != selected_action)
+    if (current_button_action == ButtonAction::None || current_button_action != selected_action)
     {
-        current_action = it->second;
-        selected_action = current_action;
+        current_button_action = it->second;
+        selected_action = current_button_action;
     }
-    else if (current_action == selected_action) {
-        current_action = ButtonAction::None;
-        selected_action = current_action;
+    else if (current_button_action == selected_action) {
+        current_button_action = ButtonAction::None;
+        selected_action = current_button_action;
 	}
 }
 
@@ -27,11 +27,19 @@ void UIController::set_current_color(const sf::Color& color) { current_color_ = 
 
 sf::Color UIController::get_current_color() const { return current_color_; }
 
+void UIController::set_button_action(ButtonAction button_action) { current_button_action = button_action; }
+
+ButtonAction UIController::get_button_action() { return current_button_action; }
+
+void UIController::set_polygon_points(const int num_points) { current_polygon_points = num_points; }
+
+int UIController::get_polygon_points() { return current_polygon_points; }
+
 void UIController::draw_button(const std::string& label, ButtonAction action = ButtonAction::None, ImVec2 size)
 {
     auto it = buttons.find(label);
     if (it == buttons.end()) buttons.insert(std::pair<const std::string, ButtonAction> (label, action));
-    bool active = (action == current_action && action != ButtonAction::None);
+    bool active = (action == current_button_action && action != ButtonAction::None);
 
     if (active)
     {

@@ -20,11 +20,12 @@ private:
 	LogicController();
 	~LogicController();
 
+	void spawn_rectangle(sf::Vector2f position);
 	void spawn_ellipse(sf::Vector2f position);
 	void spawn_polygon(sf::Vector2f position);
 	void copy_color(sf::Vector2f position);
 	void paint_figure(sf::Vector2f position);
-	void spawn_rectangle(sf::Vector2f position);
+	void move_figures(bool is_forward);
 
 	void try_find_shape_to_select(sf::Vector2f position);
 public:

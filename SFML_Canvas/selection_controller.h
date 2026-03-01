@@ -49,6 +49,7 @@ private:
 public:
     static SelectionController* get_instance();
 
+    std::list<BaseShape*> get_selected_shapes();
     bool is_point_on_selection(sf::Vector2f mouse_position);
 	bool try_select_shape(BaseShape* shape, sf::Vector2f point, bool is_union);
     void try_add_shape_to_selection(BaseShape* shape, bool is_union);

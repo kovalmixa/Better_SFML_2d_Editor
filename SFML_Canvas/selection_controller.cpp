@@ -146,7 +146,9 @@ void SelectionController::update_transform_points()
 }
 
 bool SelectionController::is_point_near_transform_point(sf::Vector2f point, sf::Shape* transform_point)
-{ return euclidean_distance(point, transform_point->getPosition()) <= TRANSFORM_POINTS_DRAG_RADIUS_OFFSET; }
+{
+	return euclidean_distance(point, transform_point->getPosition()) <= TRANSFORM_POINTS_DRAG_RADIUS_OFFSET; 
+}
 
 void SelectionController::drag_rotation(sf::Vector2f mouse_position)
 {
@@ -313,7 +315,11 @@ TransformData SelectionController::get_all_shapes_bounds_transform(std::list<Bas
 }
 
 SelectionController* SelectionController::get_instance() 
-{ return (instance_ == nullptr) ? instance_ = new SelectionController() : instance_; }
+{ 
+	return (instance_ == nullptr) ? instance_ = new SelectionController() : instance_;
+}
+
+std::list<BaseShape*> SelectionController::get_selected_shapes() { return selected_shapes_; }
 
 bool SelectionController::is_point_on_selection(sf::Vector2f point)
 {
@@ -414,8 +420,8 @@ void SelectionController::try_copy_shapes()
 
 void SelectionController::try_paste_shapes(sf::Vector2f mouse_position)
 {
-	if (is_selection_active_) delete_selected_shapes();
 	if (copy_buffer.empty()) return;
+	clear_selection();
 	auto copy_transform = get_all_shapes_bounds_transform(copy_buffer);
 	auto copy_center = copy_transform.position;
 	std::vector<BaseShape*> pasted;
