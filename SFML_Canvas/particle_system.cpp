@@ -55,9 +55,7 @@ void ParticleSystem::update()
         auto transform = host_shape_->get_transform();
         auto position = transform.position;
         current_emitter->process_emition(position);
-        current_emitter->for_each_active([dt](ParticleData& p) {
-            p.update(dt);
-        });
+        current_emitter->update_particles(dt);
         std::this_thread::sleep_for(std::chrono::milliseconds(15));
     }
 }
@@ -65,16 +63,5 @@ void ParticleSystem::update()
 void ParticleSystem::draw(sf::RenderWindow& window)
 {
     if (current_emitter == nullptr) return;
-
-    current_emitter->for_each_active([&window, this](ParticleData& particle) {
-        if (!particle.active) return;
-
-        auto& p_transform = particle.transform_data;
-        particle_shape_.setSize(p_transform.size);
-        particle_shape_.setPosition(p_transform.position);
-        particle_shape_.setRotation(p_transform.rotation);
-        particle_shape_.setFillColor(particle.color);
-
-        window.draw(particle_shape_);
-    });
+    current_emitter->draw(window, &particle_shape_);
 }
