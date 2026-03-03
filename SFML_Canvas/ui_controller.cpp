@@ -6,6 +6,16 @@
 UIController* UIController::instance_ = nullptr;
 sf::Color UIController::current_color_ = sf::Color::White;
 
+UIController::UIController() {
+    effects = {
+        {"None", EmitterMode::None},
+        {"Explosion", EmitterMode::Explosion},
+        {"Fire", EmitterMode::Fire},
+        {"Smoke", EmitterMode::Smoke},
+        {"Magic", EmitterMode::Magic}
+    };
+}
+
 UIController* UIController::get_instance() {  return instance_ ? instance_ : (instance_ = new UIController());}
 
 void UIController::button_click(std::string label, ButtonAction& selected_action)
@@ -34,6 +44,15 @@ ButtonAction UIController::get_button_action() { return current_button_action; }
 void UIController::set_polygon_points(const int num_points) { current_polygon_points = num_points; }
 
 int UIController::get_polygon_points() { return current_polygon_points; }
+
+void UIController::set_effect_mode(std::string effect_name)
+{
+    auto it = effects.find(effect_name);
+    if (it == effects.end()) return;
+    current_effect = it->second;
+}
+
+EmitterMode UIController::get_effect_mode() { return current_effect; };
 
 void UIController::draw_button(const std::string& label, ButtonAction action = ButtonAction::None, ImVec2 size)
 {

@@ -15,6 +15,7 @@ LogicController* LogicController::instance_ = nullptr;
 LogicController::LogicController()
 {
 	handlers_ = {
+		{ButtonAction::AddEffect,[this](sf::Vector2f position) { set_effect(position); } },
 		{ButtonAction::Ellipse,  [this](sf::Vector2f position) { spawn_ellipse(position); }},
 		{ButtonAction::Paint,	 [this](sf::Vector2f position) { paint_figure(position); } },
 		{ButtonAction::Pipette,  [this](sf::Vector2f position) { copy_color(position); }},
@@ -27,6 +28,23 @@ LogicController::~LogicController()
 {
 	for (auto shape : shapes_) delete shape;
 	shapes_.clear();
+}
+
+void LogicController::set_effect(sf::Vector2f position)
+{
+	try
+	{
+		for (auto it = shapes_.rbegin(); it != shapes_.rend(); ++it) {
+			if ((*it)->contains(position)) {
+				(*it)->set_effect(UIController::get_instance()->get_effect_mode());
+				break;
+			}
+		}
+	}
+	catch (sf::Exception exception)
+	{
+		std::cout << "Error: " << exception.what() << std::endl;
+	}
 }
 
 void LogicController::spawn_rectangle(sf::Vector2f position)
@@ -156,7 +174,10 @@ void LogicController::execute_action(ButtonAction action, sf::Vector2f mouse_pos
 {
 	if (is_dragging_) return;
 	auto it = handlers_.find(action);
-	if (it != handlers_.end()) it->second(mouse_position);
+	if (it != handlers_.end()) {
+		SelectionController::get_instance()->clear_selection();
+		it->second(mouse_position);
+	}
 	else try_find_shape_to_select(mouse_position);
 }
 

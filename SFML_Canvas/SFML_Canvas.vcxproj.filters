@@ -45,6 +45,27 @@
     <Filter Include="Source Files\figures\base_shape\particle_system\particle_data">
       <UniqueIdentifier>{cbd93dc4-a0fb-4f75-88d8-6a9385636f59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\figures\base_shape\particle_system\emition_types">
+      <UniqueIdentifier>{a3c4d73d-b37f-44d8-a48b-d7b70f40ac50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\figures\base_shape\particle_system\particle_pool">
+      <UniqueIdentifier>{d45c3e0f-d82b-46a9-8d30-648080873905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\figures\base_shape\particle_system\emition_types\base_emitter">
+      <UniqueIdentifier>{f8bde908-3f8f-4909-9b69-f612778496db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\figures\base_shape\particle_system\emition_types\fire_emitter">
+      <UniqueIdentifier>{d07825f6-9f71-4d75-a294-389e384c270b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\figures\base_shape\particle_system\emition_types\explosion_emitter">
+      <UniqueIdentifier>{7cb397e7-c89b-4ccd-88f7-b23091829c88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\figures\base_shape\particle_system\emition_types\magic_emitter">
+      <UniqueIdentifier>{9e59206a-63fb-4583-9f83-d54a98cf4cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\figures\base_shape\particle_system\emition_types\smoke_emitter">
+      <UniqueIdentifier>{11e8dff5-111d-4c13-877f-8a98a9203bde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base_shape.cpp">
@@ -83,6 +104,24 @@
     <ClCompile Include="transform_data.cpp">
       <Filter>Source Files\figures\transform_data</Filter>
     </ClCompile>
+    <ClCompile Include="base_emitter.cpp">
+      <Filter>Source Files\figures\base_shape\particle_system\emition_types\base_emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="fire_emitter.cpp">
+      <Filter>Source Files\figures\base_shape\particle_system\emition_types\fire_emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="explosion_emitter.cpp">
+      <Filter>Source Files\figures\base_shape\particle_system\emition_types\explosion_emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="magic_emitter.cpp">
+      <Filter>Source Files\figures\base_shape\particle_system\emition_types\magic_emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="smoke_emitter.cpp">
+      <Filter>Source Files\figures\base_shape\particle_system\emition_types\smoke_emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="particle_pool.cpp">
+      <Filter>Source Files\figures\base_shape\particle_system\particle_pool</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ellipse_shape.h">
@@ -114,6 +153,24 @@
     </ClInclude>
     <ClInclude Include="transform_data.h">
       <Filter>Source Files\figures\transform_data</Filter>
+    </ClInclude>
+    <ClInclude Include="base_emitter.h">
+      <Filter>Source Files\figures\base_shape\particle_system\emition_types\base_emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="fire_emitter.h">
+      <Filter>Source Files\figures\base_shape\particle_system\emition_types\fire_emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="explosion_emitter.h">
+      <Filter>Source Files\figures\base_shape\particle_system\emition_types\explosion_emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="magic_emitter.h">
+      <Filter>Source Files\figures\base_shape\particle_system\emition_types\magic_emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="smoke_emitter.h">
+      <Filter>Source Files\figures\base_shape\particle_system\emition_types\smoke_emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="particle_pool.h">
+      <Filter>Source Files\figures\base_shape\particle_system\particle_pool</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,13 +1,18 @@
 #include "base_shape.h"
 #include "basic_functions.h"
+#include "particle_system.h"
 
 BaseShape::BaseShape()
 {
+	particle_system_ = new ParticleSystem(this);
 }
 
 BaseShape::~BaseShape()
 {
+	delete particle_system_;
 	delete shape_;
+
+	particle_system_ = nullptr;
 	shape_ = nullptr;
 }
 
@@ -45,6 +50,11 @@ void BaseShape::set_color(sf::Color color)
 	shape_->setFillColor(color);
 }
 
+void BaseShape::set_effect(EmitterMode mode) 
+{ 
+	particle_system_->emit(mode); 
+}
+
 void BaseShape::set_outline(bool show)
 { 
 	shape_->setOutlineColor(sf::Color::Blue);
@@ -53,5 +63,6 @@ void BaseShape::set_outline(bool show)
 
 void BaseShape::draw(sf::RenderWindow& window)
 { 
+	particle_system_->draw(window);
 	window.draw(*shape_); 
 }

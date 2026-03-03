@@ -88,7 +88,6 @@ void logic_pipeline(sf::RenderWindow* window, const std::vector<sf::Event>& even
 
 void rendering_pipeline(sf::RenderWindow* window){
     ImGui::SFML::Update(*window, delta_clock.restart());
-
     if (ImGui::BeginMainMenuBar())
     {
         #pragma region shapes picker
@@ -98,11 +97,11 @@ void rendering_pipeline(sf::RenderWindow* window){
         ImGui::SameLine();
         ui->draw_button("Rectangle", ButtonAction::Rectangle);
         ui->draw_button("Polygon", ButtonAction::Polygon);
-        const char* items[] = { "3", "5", "6", "8", "10", "12" };
-        static int selectedItem = 0;
+        const char* points_counts[] = { "3", "5", "6", "8", "10", "12" };
+        static int selected_points_count = 0;
         ImGui::SetNextItemWidth(50.0f);
-        if (ImGui::Combo("", &selectedItem, items, IM_ARRAYSIZE(items)))
-            ui->set_polygon_points(std::stoi(items[selectedItem]));
+        if (ImGui::Combo("##PointsCombo", &selected_points_count, points_counts, IM_ARRAYSIZE(points_counts)))
+            ui->set_polygon_points(std::stoi(points_counts[selected_points_count]));
         ImGui::EndGroup();
         #pragma endregion
 
@@ -137,11 +136,15 @@ void rendering_pipeline(sf::RenderWindow* window){
         ImGui::EndGroup();
         #pragma endregion
 
-        #pragma region color_pallete_picker_code
+        #pragma region effects picker
         ImGui::BeginGroup();
-        ui->draw_button("Pipette", ButtonAction::Pipette);
-        ui->draw_button("Pipette", ButtonAction::Pipette);
-        ui->draw_button("Pipette", ButtonAction::Pipette);
+        const  char* effect_modes[] = { "None", "Explosion", "Fire", "Smoke", "Magic" };
+        static int selected_effect_mode = 0;
+        ImGui::SetNextItemWidth(100);
+        if (ImGui::Combo("##EffectsCombo", &selected_effect_mode, effect_modes, IM_ARRAYSIZE(effect_modes)))
+            ui->set_effect_mode(effect_modes[selected_effect_mode]);
+        ui->draw_button("Add effect", ButtonAction::AddEffect, ImVec2(100, 20));
+
         ImGui::EndGroup();
         #pragma endregion
 

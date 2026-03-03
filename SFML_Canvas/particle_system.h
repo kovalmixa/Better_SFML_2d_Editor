@@ -1,12 +1,18 @@
 #pragma once
-
 #include <vector>
+#include <thread>
+#include <atomic>
 #include <SFML/Graphics.hpp>
+#include <map>
 
 #include "particle_data.h"
 
-enum class ParticleMode
+class BaseShape;
+class BaseEmitter;
+
+enum class EmitterMode
 {
+    None,
     Explosion,
     Smoke,
     Fire,
@@ -15,19 +21,18 @@ enum class ParticleMode
 
 class ParticleSystem {
 private:
-    std::vector<ParticleData> particles_;
-    sf::RectangleShape particle_shape;
-
-    ParticleData* get_free_particle();
-
-    void emit_explosion(sf::Vector2f pos);
-    void emit_fire(sf::Vector2f pos);
-    void emit_smoke(sf::Vector2f pos);
-    void emit_magic(sf::Vector2f pos);
+    BaseShape* host_shape_ = nullptr;
+    std::map<EmitterMode, BaseEmitter*> emition_map;
+    sf::RectangleShape particle_shape_;
+    BaseEmitter* current_emitter = nullptr;
 public:
-    ParticleSystem(size_t maxCount);
+    std::thread update_thread;
 
-    void emit(sf::Vector2f position, int count);
-    void update(float dt);
+    ParticleSystem(BaseShape* host_shape);
+    ~ParticleSystem();
+
+    void emit(const EmitterMode mode);
+    void stop_emition();
+    void update();
     void draw(sf::RenderWindow& window);
 };

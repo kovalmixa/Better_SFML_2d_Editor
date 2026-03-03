@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 
+#include "particle_system.h"
 #include "imgui.h"
 
 enum class ButtonAction
@@ -11,18 +12,21 @@ enum class ButtonAction
 	Rectangle,
 	Polygon,
 	Pipette,
-	Paint
+	Paint,
+	AddEffect
 };
 
 class UIController
 {
 private:
 	std::map<std::string, ButtonAction> buttons;
+	std::map<std::string, EmitterMode> effects;
 	static UIController* instance_;
-	UIController() = default;
+	UIController();
 
 	static sf::Color current_color_;
 	ButtonAction current_button_action = ButtonAction::None;
+	EmitterMode current_effect = EmitterMode::Explosion;
 	int current_polygon_points = 3;
 public:
 	static UIController* get_instance();
@@ -37,6 +41,9 @@ public:
 
 	void set_polygon_points(const int num_points);
 	int get_polygon_points();
+
+	void set_effect_mode(std::string effect_name);
+	EmitterMode get_effect_mode();
 
 	void draw_button(const std::string& label, ButtonAction action, ImVec2 size = ImVec2(100, 20));
 };

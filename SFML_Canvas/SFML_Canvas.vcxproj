@@ -124,28 +124,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="base_emitter.cpp" />
     <ClCompile Include="basic_functions.h" />
+    <ClCompile Include="explosion_emitter.cpp" />
+    <ClCompile Include="fire_emitter.cpp" />
     <ClCompile Include="logic_controller.cpp" />
     <ClCompile Include="ellipse_shape.cpp" />
+    <ClCompile Include="magic_emitter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="particle_data.cpp" />
+    <ClCompile Include="particle_pool.cpp" />
     <ClCompile Include="particle_system.cpp" />
     <ClCompile Include="polygon_shape.cpp" />
     <ClCompile Include="rectangle_shape.cpp" />
     <ClCompile Include="base_shape.cpp" />
     <ClCompile Include="selection_controller.cpp" />
+    <ClCompile Include="smoke_emitter.cpp" />
     <ClCompile Include="transform_data.cpp" />
     <ClCompile Include="ui_controller.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="base_emitter.h" />
+    <ClInclude Include="explosion_emitter.h" />
+    <ClInclude Include="fire_emitter.h" />
     <ClInclude Include="logic_controller.h" />
     <ClInclude Include="ellipse_shape.h" />
+    <ClInclude Include="magic_emitter.h" />
     <ClInclude Include="particle_data.h" />
+    <ClInclude Include="particle_pool.h" />
     <ClInclude Include="particle_system.h" />
     <ClInclude Include="polygon_shape.h" />
     <ClInclude Include="rectangle_shape.h" />
     <ClInclude Include="base_shape.h" />
     <ClInclude Include="selection_controller.h" />
+    <ClInclude Include="smoke_emitter.h" />
     <ClInclude Include="transform_data.h" />
     <ClInclude Include="ui_controller.h" />
   </ItemGroup>

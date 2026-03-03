@@ -20,6 +20,7 @@ private:
 	LogicController();
 	~LogicController();
 
+	void set_effect(sf::Vector2f position);
 	void spawn_rectangle(sf::Vector2f position);
 	void spawn_ellipse(sf::Vector2f position);
 	void spawn_polygon(sf::Vector2f position);

@@ -1,11 +1,16 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+
 #include "transform_data.h"
+
+enum class EmitterMode;
+class ParticleSystem;
 
 class BaseShape {
 protected:
     sf::Shape* shape_ = nullptr;
 	TransformData transform_data_;
+    ParticleSystem* particle_system_ = nullptr;
 
 	virtual void apply_transform() = 0;
 public:
@@ -19,7 +24,9 @@ public:
 
     virtual sf::Color get_color();
     virtual void set_color(const sf::Color color);
-    void set_outline(const bool show);
+    
+    virtual void set_effect(EmitterMode mode);
+    virtual void set_outline(const bool show);
     virtual void draw(sf::RenderWindow& window);
 
     virtual bool contains(const sf::Vector2f point) = 0;
